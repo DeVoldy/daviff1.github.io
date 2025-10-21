@@ -119,12 +119,17 @@ body {
 .bottom-nav {
   background-color: #9fc3c2;
   padding: 20px 24px;
+  border-top: 2px solid #1a1a1a;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-.icon-back {
+.bottom-nav .icon-back {
   width: 45px;
   height: 45px;
   cursor: pointer;
+  margin-left: 0;
 }
 
 .cea {
@@ -265,7 +270,7 @@ body {
 }
 
 /* RODAPÉ (Bottom Navigation)*/
-.bottom-nav {
+.bottom-nav-init{
   background-color: #9fc3c2;
   padding: 16px 24px;
   border-top: 2px solid #1a1a1a;
@@ -275,7 +280,7 @@ body {
   height: 64px;
 }
 
-.bottom-nav img {
+.bottom-nav-init img {
   width: 40px;
   height: 40px;
   cursor: pointer;
