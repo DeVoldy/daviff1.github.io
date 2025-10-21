@@ -13,7 +13,8 @@ body {
 
 .container {
   max-width: 440px;
-  max-height: 956px;
+  /* Use min-height para garantir que o container ocupe a tela toda */
+  min-height: 100dvh;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -451,17 +452,16 @@ body {
 }
 
 /* Tela de Reservas */
-
 :root {
-  --bg-card: #5ea6a4;
-  --text-dark: #111;
-  --muted: rgba(17, 17, 17, 0.65);
-  --card-radius: 0.9rem;
-  --card-border: 0.125rem;
-  --gap-h: 1.125rem;
-  --gap-v: 1rem;
-  --footer-height: 4.5rem;
-  --approx-card-height: 7rem;
+ --bg-card: #5ea6a4;
+ --text-dark: #111;
+ --muted: rgba(17, 17, 17, 0.65);
+ --card-radius: 0.9rem;
+ --card-border: 0.125rem;
+ --gap-h: 1.125rem;
+ --gap-v: 1rem;
+ --footer-height: 4.5rem;
+ --approx-card-height: 7rem;
 }
 
 .reservas {
