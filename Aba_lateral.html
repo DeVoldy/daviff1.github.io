@@ -1,34 +1,50 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PensiON — Menu</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PensiON — Menu lateral</title>
+    <link rel="stylesheet" href="css/style.css" />
   </head>
-  <body>
-    <header>
-      <nav aria-label="Atalhos do topo">
-        <a href="index.html" aria-label="Voltar">⬅</a>
-        <span aria-hidden="true">📋</span>
-        <a href="#" aria-label="Perfil">👤</a>
-      </nav>
-      <h1>Menu</h1>
-      <hr>
-    </header>
 
-    <main>
-      <aside aria-labelledby="perfil">
-        <h2 id="perfil">👤 Cláudio</h2>
-        <p>Administrador</p>
-        <nav aria-label="Opções do menu">
-          <ul>
-            <li><a href="#">Editar Perfil</a></li>
-            <li><a href="#">Configuração</a></li>
-            <li><a href="#">Ajuda</a></li>
-          </ul>
+  <body>
+    <section class="container lateral">
+
+      <aside class="sidebar" aria-label="Menu lateral">
+        <header class="profile">
+          <figure class="avatar">
+            <img src="img/user.png" alt="Cláudio" />
+          </figure>
+          <figcaption class="profile-name">
+            Cláudio
+            <small>administrador</small>
+          </figcaption>
+        </header>
+
+        <nav class="side-actions" aria-label="Ações do usuário">
+          <button type="button" class="side-btn">Editar Perfil</button>
+          <button type="button" class="side-btn">Configuração</button>
+          <button type="button" class="side-btn">Ajuda</button>
         </nav>
-        <p><a href="#">↩️ Sair</a></p>
+
+        <footer class="side-exit">
+          <a href="index.html" class="side-btn side-btn--exit">
+            <img src="img/back.png" alt="Voltar" class="icon-back" />
+            <span>Sair</span>
+          </a>
+        </footer>
+
       </aside>
-    </main>
+
+      <main class="scrim" aria-hidden="true">
+        <header class="scrim-top">
+          <img src="img/notifications.png" alt="Notificações" class="icon-bell" />
+        </header>
+
+        <footer class="scrim-bottom">
+          <img src="img/dollar.png" alt="Financeiro" class="icon-coins" />
+        </footer>
+      </main>
+    </section>
   </body>
 </html>
