@@ -9,15 +9,11 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #d9d9d9;
-<<<<<<< HEAD
-}
-=======
-} 
->>>>>>> de519fc729bd6780f6298451f3c478b2123a5200
 
 .container {
   max-width: 440px;
-  max-height: 956px;
+  /* Use min-height para garantir que o container ocupe a tela toda */
+  min-height: 100dvh;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -112,8 +108,7 @@ body {
   letter-spacing: 0.5px;
 }
 
-<<<<<<< HEAD
-=======
+
 .icon-agenda {
   width: 80px;
   height: 80px;
@@ -121,7 +116,7 @@ body {
   padding: 8px;
 }
 
->>>>>>> de519fc729bd6780f6298451f3c478b2123a5200
+
 /* Bottom Navigation */
 .bottom-nav {
   background-color: #9fc3c2;
@@ -140,9 +135,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-<<<<<<< HEAD
-}
-=======
+
 }
 
 /*TELA INICIAL================================================ */
@@ -454,22 +447,19 @@ body {
   width: 42px;
   height: auto;
 }
-<<<<<<< HEAD
->>>>>>> de519fc729bd6780f6298451f3c478b2123a5200
-=======
+
 
 /* Tela de Reservas */
-
 :root {
-  --bg-card: #5ea6a4;
-  --text-dark: #111;
-  --muted: rgba(17, 17, 17, 0.65);
-  --card-radius: 0.9rem;
-  --card-border: 0.125rem;
-  --gap-h: 1.125rem;
-  --gap-v: 1rem;
-  --footer-height: 4.5rem;
-  --approx-card-height: 7rem;
+ --bg-card: #5ea6a4;
+ --text-dark: #111;
+ --muted: rgba(17, 17, 17, 0.65);
+ --card-radius: 0.9rem;
+ --card-border: 0.125rem;
+ --gap-h: 1.125rem;
+ --gap-v: 1rem;
+ --footer-height: 4.5rem;
+ --approx-card-height: 7rem;
 }
 
 .reservas {
@@ -698,5 +688,5 @@ body {
   background: transparent;
 }
 
-.card-icon img { width:56px; height:56px; }
->>>>>>> 72493c09c47148b5fe3b2e3b5fb4e337417bf80d
+.card-icon img {width:56px; height:56px;} 
+}
