@@ -9,11 +9,7 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #d9d9d9;
-<<<<<<< HEAD
 }
-=======
-} 
->>>>>>> de519fc729bd6780f6298451f3c478b2123a5200
 
 .container {
   max-width: 440px;
@@ -112,8 +108,6 @@ body {
   letter-spacing: 0.5px;
 }
 
-<<<<<<< HEAD
-=======
 .icon-agenda {
   width: 80px;
   height: 80px;
@@ -121,7 +115,6 @@ body {
   padding: 8px;
 }
 
->>>>>>> de519fc729bd6780f6298451f3c478b2123a5200
 /* Bottom Navigation */
 .bottom-nav {
   background-color: #9fc3c2;
