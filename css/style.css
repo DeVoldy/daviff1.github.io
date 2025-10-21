@@ -108,6 +108,13 @@ body {
   letter-spacing: 0.5px;
 }
 
+.icon-agenda {
+  width: 80px;
+  height: 80px;
+  border: 2px;
+  padding: 8px;
+}
+
 /* Bottom Navigation */
 .bottom-nav {
   background-color: #9fc3c2;
@@ -258,7 +265,7 @@ body {
   padding: 16px 24px;
   border-top: 2px solid #1a1a1a;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
   height: 64px;
 }
