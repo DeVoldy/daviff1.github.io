@@ -1,1 +1,121 @@
-/* Classes do CSS aqui! */
+/* Classes do CSS aqui!*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #d9d9d9;
+}
+
+.container {
+  max-width: 378px;
+  height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #d9d9d9;
+}
+
+/* Top Navigation Bar */
+.top-nav {
+  background-color: #9db5b2;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon-menu {
+  width: 40px;
+  height: 30px;
+}
+
+.icon-check {
+  width: 40px;
+  height: 40px;
+}
+
+.icon-bell {
+  width: 35px;
+  height: 35px;
+}
+
+/* Financial Header Section */
+.financial-header {
+  background-color: #335857;
+  border-top: #1a1a1a solid;
+  border-bottom: #1a1a1a solid;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-coins {
+  width: 50px;
+  height: 50px;
+}
+
+.financial-header h1 {
+  color: #1a1a1a;
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  padding-left: 10px;
+}
+
+/* Menu Items */
+.menu-items {
+  flex: 1;
+  padding: 24px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid #d0ccc4;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+  background-color: #ddd9d1;
+}
+
+.menu-item:first-child {
+  padding-top: 12px;
+}
+
+.icon-warning,
+.icon-payment {
+  width: 60px;
+  height: 60px;
+  border: 2px solid #1a1a1a;
+  border-radius: 50%;
+  padding: 8px;
+}
+
+.menu-item span {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  background-color: #9db5b2;
+  padding: 20px 24px;
+}
+
+.icon-back {
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+}
