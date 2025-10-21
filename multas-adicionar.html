@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Multa - Meu App</title>
+</head>
+<body>
+
+    <header>
+        <nav aria-label="Atalhos do topo">
+        <a href="Aba_lateral.html" aria-label="Abrir menu">☰</a>
+        |
+        <a href="#" aria-label="Notificações">✉️✔️</a>
+        |
+        <a href="#" aria-label="Perfil">👤</a>
+      </nav>
+        <h1>⚠️ Multas</h1>
+    </header>
+    
+    <main>
+        <h2>Adicionar Nova Multa</h2>
+        
+        <form>
+            <p>
+                <label for="nome">NOME:</label><br>
+                <input type="text" id="nome" name="nome">
+            </p>
+            <p>
+                <label for="quarto">QUARTO:</label><br>
+                <input type="text" id="quarto" name="quarto">
+            </p>
+            <p>
+                <label for="descricao">DESCRIÇÃO:</label><br>
+                <input type="text" id="descricao" name="descricao">
+            </p>
+            <p>
+                <label for="itens">Nº ITENS:</label><br>
+                <input type="number" id="itens" name="itens">
+            </p>
+            <p>
+                <label for="valor">VALOR:</label><br>
+                <input type="number" id="valor" name="valor" step="0.01" placeholder="Ex: 60.00">
+            </p>
+        </form>
+        
+        <p>
+            <a href="multas-pendentes.html">FINALIZAR</a>
+        </p>
+
+    </main>
+
+    <footer>
+        <a href="multas-pendentes.html">&larr; Voltar</a>
+    </footer>
+
+</body>
+</html>
