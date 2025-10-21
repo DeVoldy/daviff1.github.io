@@ -133,9 +133,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-<<<<<<< HEAD
-}
-=======
 }
 
 /*TELA INICIAL================================================ */
@@ -447,9 +444,6 @@ body {
   width: 42px;
   height: auto;
 }
-<<<<<<< HEAD
->>>>>>> de519fc729bd6780f6298451f3c478b2123a5200
-=======
 
 /* Tela de Reservas */
 
@@ -692,4 +686,3 @@ body {
 }
 
 .card-icon img { width:56px; height:56px; }
->>>>>>> 72493c09c47148b5fe3b2e3b5fb4e337417bf80d
