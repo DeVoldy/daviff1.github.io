@@ -9,6 +9,7 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #d9d9d9;
+}
 
 .container {
   max-width: 440px;
@@ -108,14 +109,12 @@ body {
   letter-spacing: 0.5px;
 }
 
-
 .icon-agenda {
   width: 80px;
   height: 80px;
   border: 2px;
   padding: 8px;
 }
-
 
 /* Bottom Navigation */
 .bottom-nav {
@@ -135,7 +134,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-
 }
 
 /*TELA INICIAL================================================ */
@@ -448,7 +446,6 @@ body {
   height: auto;
 }
 
-
 /* Tela de Reservas */
 :root {
  --bg-card: #5ea6a4;
@@ -688,5 +685,4 @@ body {
   background: transparent;
 }
 
-.card-icon img {width:56px; height:56px;} 
-}
+.card-icon img { width:56px; height:56px; }
