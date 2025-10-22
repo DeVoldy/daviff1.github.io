@@ -1,71 +1,76 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multas Pendentes - Meu App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multas Pendentes - Meu App</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="container">
 
-    <header>
-        <nav aria-label="Atalhos do topo">
-        <a href="Aba_lateral.html" aria-label="Abrir menu">☰</a>
-        |
-        <a href="#" aria-label="Notificações">✉️✔️</a>
-        |
-        <a href="#" aria-label="Perfil">👤</a>
-      </nav>
-        <h1>⚠️ Multas</h1>
-    </header>
+    <header>
+        <nav aria-label="Atalhos do topo" class="top-nav">
+            <a href="Aba_lateral.html" aria-label="Abrir menu"><img src="img/menu.png" alt="menu" class="icon-menu"></a>
+            <a href="index.html" aria-label="Perfil"><img src="img/house.png" alt="Verificado" class="icon-check"></a>
+            <img src="img/notifications.png" alt="Notificações" class="icon-bell">
+        </nav>
+        
+        <section class="maintenance-header">            <img src="img/danger.png" alt="Multa" class="icon-coins">
+            <h1>Multas</h1>
+        </section>
 
-    <main>
-        <nav>
-            <a href="multas-adicionar.html">[+] Adicionar</a>
-            <hr>
-            <strong>Pendentes</strong>
-            |
-            <a href="multas-finalizadas.html">Finalizados</a>
-        </nav>
+        <section class="maintenance-tabs">            <a href="multas-adicionar.html" class="tab">Adicionar</a>
+            <a href="multas-pendentes.html" class="tab active">Pendentes</a>
+            <a href="multas-finalizadas.html" class="tab">Finalizados</a> 
+        </section>
+    </header>
 
-        <section>
-            <h2>Multas Pendentes</h2>
-            <ul>
-                <li>
-                    <article>
-                        <h3>Juliano Cunha</h3>
-                        <p>Louça suja</p>
-                        <p>4 itens</p>
-                        <p>Valor: R$ 60,00</p>
-                    </article>
-                </li>
-                <li>
-                    <hr>
-                </li>
-                <li>
-                    <article>
-                        <h3>Pedro Henrique</h3>
-                        <p>Usou a máquina em outra reserva</p>
-                        <p>Valor: R$ 30,00</p>
-                    </article>
-                </li>
-                <li>
-                    <hr>
-                </li>
-                <li>
-                    <article>
-                        <h3>Ana Luiza</h3>
-                        <p>Louça suja</p>
-                        <p>2 itens</p>
-                        <p>Valor: R$ 30,00</p>
-                    </article>
-                </li>
-            </ul>
-        </section>
-    </main>
-    
-    <footer>
-        <a href="financeiro-pag-inicial.html">&larr; Voltar</a>
-    </footer>
+    <main>
+        <ul class="list-cards">
+            
+                       <li class="card">
+                <ul class="row">
+                    <li class="card-icon">                        <img src="img/user.png" alt="ícone usuário">
+                    </li>
+                    <li>                        <h3 class="pagamento-nome">Juliano Cunha</h3>                        <p>Louça suja</p>
+                        <p>4 itens</p>
+                        <p class="pagamento-valor">R$ 60,00</p>                    </li>
+                </ul>
+            </li>
 
+                       <li class="card">
+                <ul class="row">
+                    <li class="card-icon">
+                        <img src="img/user.png" alt="ícone usuário">
+                    </li>
+                    <li>
+                        <h3 class="pagamento-nome">Pedro Henrique</h3>
+                        <p>Usou a máquina...</p>
+                        <p class="pagamento-valor">R$ 30,00</p>
+                    </li>
+                </ul>
+            </li>
+            
+                       <li class="card">
+                <ul class="row">
+                    <li class="card-icon">
+                        <img src="img/user.png" alt="ícone usuário">
+                    </li>
+                    <li>
+                        <h3 class="pagamento-nome">Ana Luiza</h3>
+                        <p>Louça suja</p>
+                        <p>2 itens</p>
+                        <p class="pagamento-valor">R$ 30,00</p>
+                    </li>
+                </ul>
+            </li>
+            
+        </ul>
+    </main>
+
+    <footer class="bottom-nav">
+        <a href="financeiro-pag-inicial.html"><img src="img/back.png" alt="Voltar" class="icon-back"></a>
+    </footer>
 </body>
 </html>

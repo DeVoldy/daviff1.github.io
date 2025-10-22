@@ -1,58 +1,59 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Multa - Meu App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Multa - Meu App</title>
+       <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="container">
 
-    <header>
-        <nav aria-label="Atalhos do topo">
-        <a href="Aba_lateral.html" aria-label="Abrir menu">☰</a>
-        |
-        <a href="#" aria-label="Notificações">✉️✔️</a>
-        |
-        <a href="#" aria-label="Perfil">👤</a>
-      </nav>
-        <h1>⚠️ Multas</h1>
-    </header>
-    
-    <main>
-        <h2>Adicionar Nova Multa</h2>
-        
-        <form>
-            <p>
-                <label for="nome">NOME:</label><br>
-                <input type="text" id="nome" name="nome">
-            </p>
-            <p>
-                <label for="quarto">QUARTO:</label><br>
-                <input type="text" id="quarto" name="quarto">
-            </p>
-            <p>
-                <label for="descricao">DESCRIÇÃO:</label><br>
-                <input type="text" id="descricao" name="descricao">
-            </p>
-            <p>
-                <label for="itens">Nº ITENS:</label><br>
-                <input type="number" id="itens" name="itens">
-            </p>
-            <p>
-                <label for="valor">VALOR:</label><br>
-                <input type="number" id="valor" name="valor" step="0.01" placeholder="Ex: 60.00">
-            </p>
-        </form>
-        
-        <p>
-            <a href="multas-pendentes.html">FINALIZAR</a>
-        </p>
+    <header>
+        <nav aria-label="Atalhos do topo" class="top-nav">
+            <a href="Aba_lateral.html" aria-label="Abrir menu"><img src="img/menu.png" alt="menu" class="icon-menu"></a>
+            <a href="index.html" aria-label="Perfil"><img src="img/house.png" alt="Verificado" class="icon-check"></a>
+            <img src="img/notifications.png" alt="Notificações" class="icon-bell">
+        </nav>
+        
+        <section class="maintenance-header">
+            <img src="img/danger.png" alt="Multa" class="icon-coins">
+            <h1>Multas</h1>
+        </section>
+    </header>
+        
+    <main class="menu-items">        <h2 class="title" style="text-align: center; margin-top: 0;">Adicionar Nova Multa</h2>
+        
+        <form class="form-add">
+            <div class="form-group">
+                <label for="nome">NOME:</label>
+                <input type="text" id="nome" name="nome">
+            </div>
+            <div class="form-group">
+                <label for="quarto">QUARTO:</label>
+                <input type="text" id="quarto" name="quarto">
+            </div>
+            <div class="form-group">
+                <label for="descricao">OBS:</label>
+                <input type="text" id="descricao" name="descricao">
+            </div>
+            <div class="form-group">
+                <label for="itens">ITEMS:</label> 
+                <input type="number" id="itens" name="itens">
+            </div>
+            <div class="form-group">
+                <label for="valor">VALOR:</label>
+                <input type="number" id="valor" name="valor" step="0.01" placeholder="Ex: 60.00">
+            </div>
+            
+            <a href="multas-pendentes.html" class="side-btn btn-finalizar">
+                FINALIZAR
+            </a>
+        </form>
+    </main>
 
-    </main>
-
-    <footer>
-        <a href="multas-pendentes.html">&larr; Voltar</a>
-    </footer>
-
+    <footer class="bottom-nav">
+        <a href="multas-pendentes.html"><img src="img/back.png" alt="Voltar" class="icon-back"></a>
+    </footer>
 </body>
 </html>
