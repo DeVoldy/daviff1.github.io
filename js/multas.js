@@ -124,13 +124,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     //ETAPA 3:"multas-finalizadas.html"
     
+
     
     const abaFinalizadaAtiva = document.querySelector('.maintenance-tabs a[href="multas-finalizadas.html"].active');
     
     if (abaFinalizadaAtiva) {
         
         const listaDeCards = document.querySelector('.list-cards');
-        const multasFinalizadas = JSON.parse(localStorage.getItem('multasFinalizadas')) || [];
+        
+        let multasFinalizadas = JSON.parse(localStorage.getItem('multasFinalizadas')) || [];
 
         if (multasFinalizadas.length > 0) {
             listaDeCards.innerHTML = ''; // Limpa a lista
@@ -154,10 +156,40 @@ document.addEventListener('DOMContentLoaded', function() {
                     </ul>
                 `;
                 
+                
+                novoCard.addEventListener('click', function() {
+                    
+                    
+                    novoCard.style.borderColor = 'red';
+
+                   
+                    setTimeout(function() {
+                        
+                        
+                        multasFinalizadas = multasFinalizadas.filter(function(item) {
+                            return item.id !== multa.id;
+                        });
+
+                        
+                        localStorage.setItem('multasFinalizadas', JSON.stringify(multasFinalizadas));
+                        
+                        
+                        novoCard.remove();
+
+                        
+                        if (multasFinalizadas.length === 0) {
+                            listaDeCards.innerHTML = `
+                                <p class="empty-list-message">
+                                    Nenhuma multa finalizada para exibir no momento.
+                                </p>
+                            `;
+                        }
+                    }, 300); // 300 milissegundos de atraso
+                });
+
                 listaDeCards.appendChild(novoCard);
             }
         } else {
-            
             listaDeCards.innerHTML = `
                 <p class="empty-list-message">
                     Nenhuma multa finalizada para exibir no momento.
@@ -166,4 +198,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-});
+}); 
