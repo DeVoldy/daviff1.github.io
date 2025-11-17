@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 id: new Date().getTime(),
                 nome: nome,
                 quarto: quarto,
-                descricao: descricao,
+                descricao: descricao.trim() || 'Multa', 
                 itens: itens,
                 valor: parseFloat(valor).toFixed(2)
             };
@@ -37,6 +37,10 @@ document.addEventListener('DOMContentLoaded', function() {
             let multasPendentes = JSON.parse(localStorage.getItem('multasPendentes')) || [];
             multasPendentes.push(novaMulta);
             localStorage.setItem('multasPendentes', JSON.stringify(multasPendentes));
+
+            let multasRecentes = JSON.parse(localStorage.getItem('multasRecentes')) || [];
+            multasRecentes.push(novaMulta);
+            localStorage.setItem('multasRecentes', JSON.stringify(multasRecentes));
 
             window.location.href = btnFinalizar.href;
         });
@@ -51,74 +55,81 @@ document.addEventListener('DOMContentLoaded', function() {
         const listaDeCards = document.querySelector('.list-cards');
         let multasPendentes = JSON.parse(localStorage.getItem('multasPendentes')) || [];
 
-        if (multasPendentes.length > 0) {
+        function renderizarMultasPendentes() {
             listaDeCards.innerHTML = ''; 
 
-            for (const multa of multasPendentes) {
-                const novoCard = document.createElement('li');
-                novoCard.classList.add('card'); 
-                novoCard.innerHTML = `
-                    <ul class="row">
-                        <li class="card-icon">
-                            <img src="img/user.png" alt="ícone usuário">
-                        </li>
-                        <li>    
-                            <h2 class="title">${multa.nome}</h2>
-                            ${multa.descricao ? `<p>${multa.descricao}</p>` : ''}
-                            ${multa.itens ? `<p>${multa.itens} itens</p>` : ''}
-                            <p class="pagamento-valor">R$ ${multa.valor}</p>
-                        </li>
-                    </ul>
+            if (multasPendentes.length > 0) {
+                for (const multa of multasPendentes) {
+                    const novoCard = document.createElement('li');
+                    novoCard.classList.add('card'); 
+                    novoCard.setAttribute('data-multa-id', multa.id); // Adiciona ID
+                    
+                    const descricaoDisplay = multa.descricao ? `<p>${multa.descricao}</p>` : '';
+                    const itensDisplay = multa.itens ? `<p>${multa.itens} itens</p>` : '';
+
+                    novoCard.innerHTML = `
+                        <ul class="row">
+                            <li class="card-icon">
+                                <img src="img/user.png" alt="ícone usuário">
+                            </li>
+                            <li>    
+                                <h2 class="title">${multa.nome}</h2>
+                                ${descricaoDisplay}
+                                ${itensDisplay}
+                                <p class="pagamento-valor">R$ ${multa.valor}</p>
+                            </li>
+                        </ul>
+                    `;
+                    
+                    
+                    novoCard.addEventListener('click', function() {
+                        
+                        
+                        novoCard.style.borderColor = 'red';
+                        
+                        
+                        setTimeout(function() {
+
+                            
+                            let multasFinalizadas = JSON.parse(localStorage.getItem('multasFinalizadas')) || [];
+                            
+                            
+                            multasFinalizadas.push(multa);
+                            
+                            
+                            multasPendentes = multasPendentes.filter(function(item) {
+                                return item.id !== multa.id;
+                            });
+                            
+                            
+                            localStorage.setItem('multasPendentes', JSON.stringify(multasPendentes));
+                            localStorage.setItem('multasFinalizadas', JSON.stringify(multasFinalizadas));
+                            
+                            let multasRecentes = JSON.parse(localStorage.getItem('multasRecentes')) || [];
+                            multasRecentes = multasRecentes.filter(function(item) {
+                                return item.id !== multa.id;
+                            });
+                            localStorage.setItem('multasRecentes', JSON.stringify(multasRecentes));
+                            
+                            
+                            novoCard.remove();
+                            renderizarMultasPendentes();
+
+                        }, 300); // 300 milissegundos de atraso
+                    });
+
+                    listaDeCards.appendChild(novoCard);
+                }
+            } else {
+                listaDeCards.innerHTML = `
+                    <p class="empty-list-message">
+                        Nenhuma multa pendente para exibir no momento.
+                    </p>
                 `;
-                
-                
-                novoCard.addEventListener('click', function() {
-                    
-                    
-                    novoCard.style.borderColor = 'red';
-                    
-                    
-                    setTimeout(function() {
-
-                        
-                        let multasFinalizadas = JSON.parse(localStorage.getItem('multasFinalizadas')) || [];
-                        
-                        
-                        multasFinalizadas.push(multa);
-                        
-                        
-                        multasPendentes = multasPendentes.filter(function(item) {
-                            return item.id !== multa.id;
-                        });
-                        
-                        
-                        localStorage.setItem('multasPendentes', JSON.stringify(multasPendentes));
-                        localStorage.setItem('multasFinalizadas', JSON.stringify(multasFinalizadas));
-                        
-                       
-                        novoCard.remove();
-
-                       
-                        if (multasPendentes.length === 0) {
-                            listaDeCards.innerHTML = `
-                                <p class="empty-list-message">
-                                    Nenhuma multa pendente para exibir no momento.
-                                </p>
-                            `;
-                        }
-
-                    }, 300); // 300 milissegundos de atraso
-                });
-
-                listaDeCards.appendChild(novoCard);
             }
-        } else {
-            listaDeCards.innerHTML = `
-                <p class="empty-list-message">
-                    Nenhuma multa pendente para exibir no momento.
-                </p>
-            `;
         }
+        
+        renderizarMultasPendentes();
     }
 
     
@@ -134,68 +145,67 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let multasFinalizadas = JSON.parse(localStorage.getItem('multasFinalizadas')) || [];
 
-        if (multasFinalizadas.length > 0) {
-            listaDeCards.innerHTML = ''; // Limpa a lista
+        function renderizarMultasFinalizadas() {
+            listaDeCards.innerHTML = ''; 
 
-            for (const multa of multasFinalizadas) {
-                const novoCard = document.createElement('li');
-                novoCard.classList.add('card');
-                novoCard.classList.add('card-finalizado');
-                
-                novoCard.innerHTML = `
-                    <ul class="row">
-                        <li class="card-icon">
-                            <img src="img/user.png" alt="ícone usuário">
-                        </li>
-                        <li>    
-                            <h2 class="title">${multa.nome}</h2>
-                            ${multa.descricao ? `<p>${multa.descricao}</p>` : ''}
-                            ${multa.itens ? `<p>${multa.itens} itens</p>` : ''}
-                            <p class="pagamento-valor">R$ ${multa.valor}</p>
-                        </li>
-                    </ul>
+            if (multasFinalizadas.length > 0) {
+                for (const multa of multasFinalizadas) {
+                    const novoCard = document.createElement('li');
+                    novoCard.classList.add('card');
+                    novoCard.classList.add('card-finalizado');
+                    
+                    const descricaoDisplay = multa.descricao ? `<p>${multa.descricao}</p>` : '';
+                    const itensDisplay = multa.itens ? `<p>${multa.itens} itens</p>` : '';
+                    
+                    novoCard.innerHTML = `
+                        <ul class="row">
+                            <li class="card-icon">
+                                <img src="img/user.png" alt="ícone usuário">
+                            </li>
+                            <li>    
+                                <h2 class="title">${multa.nome}</h2>
+                                ${descricaoDisplay}
+                                ${itensDisplay}
+                                <p class="pagamento-valor">R$ ${multa.valor}</p>
+                            </li>
+                        </ul>
+                    `;
+                    
+                    
+                    novoCard.addEventListener('click', function() {
+                        
+                        
+                        novoCard.style.borderColor = 'red';
+
+                       
+                        setTimeout(function() {
+                            
+                            
+                            multasFinalizadas = multasFinalizadas.filter(function(item) {
+                                return item.id !== multa.id;
+                            });
+
+                            
+                            localStorage.setItem('multasFinalizadas', JSON.stringify(multasFinalizadas));
+                            
+                            
+                            novoCard.remove();
+                            renderizarMultasFinalizadas();
+
+                        }, 300); // 300 milissegundos de atraso
+                    });
+
+                    listaDeCards.appendChild(novoCard);
+                }
+            } else {
+                listaDeCards.innerHTML = `
+                    <p class="empty-list-message">
+                        Nenhuma multa finalizada para exibir no momento.
+                    </p>
                 `;
-                
-                
-                novoCard.addEventListener('click', function() {
-                    
-                    
-                    novoCard.style.borderColor = 'red';
-
-                   
-                    setTimeout(function() {
-                        
-                        
-                        multasFinalizadas = multasFinalizadas.filter(function(item) {
-                            return item.id !== multa.id;
-                        });
-
-                        
-                        localStorage.setItem('multasFinalizadas', JSON.stringify(multasFinalizadas));
-                        
-                        
-                        novoCard.remove();
-
-                        
-                        if (multasFinalizadas.length === 0) {
-                            listaDeCards.innerHTML = `
-                                <p class="empty-list-message">
-                                    Nenhuma multa finalizada para exibir no momento.
-                                </p>
-                            `;
-                        }
-                    }, 300); // 300 milissegundos de atraso
-                });
-
-                listaDeCards.appendChild(novoCard);
             }
-        } else {
-            listaDeCards.innerHTML = `
-                <p class="empty-list-message">
-                    Nenhuma multa finalizada para exibir no momento.
-                </p>
-            `;
         }
+        
+        renderizarMultasFinalizadas();
     }
-
 }); 
