@@ -22,11 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
       ? carregar(KEY_ENCERRADO)
       : carregar(KEY_ABERTO);
 
+  // Botão +
   const btnAdd = document.createElement('button');
   btnAdd.className = 'btn-add-manu';
   btnAdd.textContent = '+';
   footer.appendChild(btnAdd);
 
+  // Formulário fullscreen
   const formContainer = document.createElement('div');
   formContainer.className = 'manu-fullscreen-form';
   formContainer.style.display = 'none';
@@ -93,6 +95,60 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   selectS.addEventListener('change', () => ajustarCamposPorStatus(selectS.value));
 
+    function pushRecentManutencao(item) {
+        try {
+            const chave = 'manutencoesRecentes';
+            const arr = JSON.parse(localStorage.getItem(chave)) || [];
+            // remove qualquer entrada com mesmo id
+            const filtered = arr.filter(r => String(r.id) !== String(item.id));
+            const recent = {
+            id: item.id,
+            nome: item.quarto || item.problema || 'Manutenção',
+            descricao: item.problema || '',
+            tipo: 'manutencao',
+            when: new Date().toISOString()
+            };
+            filtered.unshift(recent);
+            if (filtered.length > 10) filtered.length = 10;
+            localStorage.setItem(chave, JSON.stringify(filtered));
+        } catch (err) {
+            console.warn('Erro ao gravar manutencoesRecentes', err);
+        }
+    }
+
+    // remove um recent por id
+    function removeRecentManutencaoById(id) {
+        try {
+            const chave = 'manutencoesRecentes';
+            const arr = JSON.parse(localStorage.getItem(chave)) || [];
+            const novo = arr.filter(r => String(r.id) !== String(id));
+            localStorage.setItem(chave, JSON.stringify(novo));
+        } catch (err) {
+            console.warn('Erro ao remover manutencoesRecentes', err);
+        }
+    }
+
+    // deletar manutenção: remove das 3 listas E do recent
+    function deletarManutencao(id) {
+        if (!confirm('Tem certeza que deseja apagar esta manutenção?')) return;
+        const keys = [KEY_ABERTO, KEY_ANDAMENTO, KEY_ENCERRADO];
+        keys.forEach(k => {
+            const arr = carregar(k);
+            const idx = arr.findIndex(x => String(x.id) === String(id));
+            if (idx !== -1) {
+            arr.splice(idx, 1);
+            salvar(k, arr);
+            }
+        });
+
+        // também remove do resumo da home
+        removeRecentManutencaoById(id);
+
+        renderizar();
+    }
+
+
+  // Renderização
   function renderizar() {
     const arr = pegarArray();
     main.innerHTML = '';
@@ -102,43 +158,33 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // agrupamento simples (igual antes)
     let grupos = {};
-
     arr.forEach((item) => {
       let dataChave = '';
-
       if (pagina === 'andamento' && item.agendada) {
-        const d = new Date(item.agendada);
-        dataChave = `Agendado: ${formatDateTitle(d)}`;
+        dataChave = formatDateTitle(new Date(item.agendada));
       } else if (pagina === 'encerrado' && item.encerradoAt) {
-        const d = new Date(item.encerradoAt);
-        dataChave = formatDateTitle(d);
+        dataChave = formatDateTitle(new Date(item.encerradoAt));
       } else if (pagina === 'aberto' && item.createdAt) {
-        const d = new Date(item.createdAt);
-        const diff = daysBetween(d, new Date());
+        const diff = daysBetween(new Date(item.createdAt), new Date());
         if (diff <= 7) dataChave = 'Essa Semana';
         else if (diff <= 14) dataChave = 'Semana passada';
         else {
           const weeks = Math.floor(diff / 7);
           dataChave = `Há ${weeks} semanas`;
         }
+      } else {
+        dataChave = 'Outros';
       }
-
-      if (!dataChave) dataChave = 'Outros';
       if (!grupos[dataChave]) grupos[dataChave] = [];
       grupos[dataChave].push(item);
     });
 
-    const ordem = Object.keys(grupos).sort((a, b) => {
-      const da = parseTitleDate(a);
-      const db = parseTitleDate(b);
-      return da - db;
-    });
-
-    ordem.forEach((titulo) => {
+    Object.keys(grupos).forEach((titulo) => {
       const h3 = document.createElement('h3');
       h3.className = 'title';
-      h3.textContent = titulo;
+      h3.textContent = pagina === 'andamento' ? `Agendado: ${titulo}` : titulo;
       main.appendChild(h3);
 
       const ul = document.createElement('ul');
@@ -162,12 +208,19 @@ document.addEventListener('DOMContentLoaded', () => {
               <p>${escape(item.quarto || '')}</p>
               ${tecnicoLine}
               ${hora}
-              <div style="margin-top:8px;"><a href="#" class="manu-edit">Editar</a></div>
+              <div style="margin-top:8px; display:flex; gap:8px;">
+                <a href="#" class="manu-edit">Editar</a>
+                <a href="#" class="manu-delete" style="color:red;">Apagar</a>
+              </div>
             </li>
           </ul>`;
         li.querySelector('.manu-edit').addEventListener('click', (e) => {
           e.preventDefault();
           abrirEdicao(item.id);
+        });
+        li.querySelector('.manu-delete').addEventListener('click', (e) => {
+          e.preventDefault();
+          deletarManutencao(item.id);
         });
         ul.appendChild(li);
       });
@@ -175,123 +228,63 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function parseTitleDate(titulo) {
-    const partes = titulo.match(/(\d+)\s+de\s+(\w+)\s*-\s*(\d+)/i);
-    if (!partes) return new Date(0);
-    const dia = parseInt(partes[1]);
-    const mes = [
-      'janeiro','fevereiro','março','abril','maio','junho',
-      'julho','agosto','setembro','outubro','novembro','dezembro'
-    ].indexOf(partes[2].toLowerCase());
-    const ano = parseInt(partes[3]);
-    return new Date(ano, mes, dia);
-  }
-
-  function daysBetween(a, b) {
-    const A = new Date(a.getFullYear(), a.getMonth(), a.getDate());
-    const B = new Date(b.getFullYear(), b.getMonth(), b.getDate());
-    return Math.round((B - A) / (1000 * 60 * 60 * 24));
-  }
-
+  // Funções auxiliares
   function formatDateTitle(d) {
-    if (!(d instanceof Date)) d = new Date(d);
-    const meses = [
-      'janeiro','fevereiro','março','abril','maio','junho',
-      'julho','agosto','setembro','outubro','novembro','dezembro'
-    ];
+    const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
     return `${d.getDate()} de ${meses[d.getMonth()]} - ${d.getFullYear()}`;
   }
-
   function formatTimeOnly(v) {
     const d = new Date(v);
-    return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+    return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  }
+  function daysBetween(a,b){return Math.round((b - a)/(1000*60*60*24));}
+  function escape(s){return s?String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])):'';}
+
+  // Formulário
+  function abrirForm(){main.style.display='none';formContainer.style.display='block';}
+  function fecharForm(){formContainer.style.display='none';main.style.display='';editingId=null;form.reset();renderizar();}
+
+  btnAdd.onclick=()=>{editingId=null;titleForm.textContent='Nova manutenção';form.reset();selectS.value=pagina;ajustarCamposPorStatus(selectS.value);abrirForm();};
+
+  function abrirEdicao(id){
+    const todas=[...carregar(KEY_ABERTO),...carregar(KEY_ANDAMENTO),...carregar(KEY_ENCERRADO)];
+    const item=todas.find(x=>x.id===id);
+    if(!item)return;
+    editingId=id;
+    titleForm.textContent='Editar manutenção';
+    inputP.value=item.problema||'';inputQ.value=item.quarto||'';inputT.value=item.tecnico||'';
+    inputAg.value=item.agendada||'';inputEnc.value=item.encerradoAt||'';selectS.value=item.status||pagina;
+    ajustarCamposPorStatus(selectS.value);abrirForm();
   }
 
-  function escape(s) {
-    return s ? s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])) : '';
-  }
+  btnCancelar.onclick=fecharForm;
 
-  function abrirForm() {
-    main.style.display = 'none';
-    formContainer.style.display = 'block';
-  }
-  function fecharForm() {
-    formContainer.style.display = 'none';
-    main.style.display = '';
-    editingId = null;
-    form.reset();
-    renderizar();
-  }
-
-  btnAdd.onclick = () => {
-    editingId = null;
-    titleForm.textContent = 'Nova manutenção';
-    form.reset();
-    selectS.value = pagina;
-    ajustarCamposPorStatus(selectS.value);
-    abrirForm();
-  };
-
-  function abrirEdicao(id) {
-    const todas = [...carregar(KEY_ABERTO), ...carregar(KEY_ANDAMENTO), ...carregar(KEY_ENCERRADO)];
-    const item = todas.find((x) => x.id === id);
-    if (!item) return;
-    editingId = id;
-    titleForm.textContent = 'Editar manutenção';
-    inputP.value = item.problema || '';
-    inputQ.value = item.quarto || '';
-    inputT.value = item.tecnico || '';
-    inputAg.value = item.agendada || '';
-    inputEnc.value = item.encerradoAt || '';
-    selectS.value = item.status || pagina;
-    ajustarCamposPorStatus(selectS.value);
-    abrirForm();
-  }
-
-  btnCancelar.onclick = fecharForm;
-
-  form.onsubmit = (e) => {
+  form.onsubmit=(e)=>{
     e.preventDefault();
-    const problema = inputP.value.trim();
-    const quarto = inputQ.value.trim();
-    const tecnico = inputT.value.trim();
-    const agendada = inputAg.value || '';
-    const encerradoAt = inputEnc.value || '';
-    const status = selectS.value;
-    if (!problema) return alert('Descreva o problema.');
+    const problema=inputP.value.trim(),quarto=inputQ.value.trim(),tecnico=inputT.value.trim(),agendada=inputAg.value||'',encerradoAt=inputEnc.value||'',status=selectS.value;
+    if(!problema)return alert('Descreva o problema.');
+    if(status==='andamento'&&!tecnico)return alert('Informe o técnico.');
+    if(status==='encerrado'&&!encerradoAt)return alert('Informe a data de encerramento.');
 
-    const createdAt = new Date().toISOString();
-    const obj = { id: editingId || novoId(), problema, quarto, tecnico, agendada, encerradoAt, status, createdAt };
-
-    const destino =
-      status === 'andamento' ? KEY_ANDAMENTO :
-      status === 'encerrado' ? KEY_ENCERRADO : KEY_ABERTO;
-
-    const arr = carregar(destino).filter((x) => x.id !== obj.id);
-    arr.push(obj);
-    salvar(destino, arr);
+    const keys=[KEY_ABERTO,KEY_ANDAMENTO,KEY_ENCERRADO];
+    if(editingId){
+      keys.forEach(k=>{const arr=carregar(k);const idx=arr.findIndex(x=>x.id===editingId);if(idx!==-1){arr.splice(idx,1);salvar(k,arr);}});
+    }
+    const createdAt=new Date().toISOString();
+    const obj={id:editingId||novoId(),problema,quarto,tecnico,agendada,encerradoAt,status,createdAt};
+    const destino=status==='andamento'?KEY_ANDAMENTO:status==='encerrado'?KEY_ENCERRADO:KEY_ABERTO;
+    const arrDest=carregar(destino);arrDest.push(obj);salvar(destino,arrDest);
+    pushRecentManutencao(obj);
     fecharForm();
   };
 
-  const st = document.createElement('style');
-  st.textContent = `
-    .btn-add-manu {
-      position: absolute;
-      right: 25px;
-      bottom: 25px;
-      background:#2a7b71;
-      color:#fff;
-      border:none;
-      border-radius:50%;
-      width:55px;
-      height:55px;
-      font-size:28px;
-      font-weight:bold;
-      cursor:pointer;
-      box-shadow:0 4px 10px rgba(0,0,0,.3);
-    }
-    .bottom-nav { position: relative; }
-    .manu-edit { color:#1a56a0; text-decoration:underline; cursor:pointer; }
+  // CSS do botão +
+  const st=document.createElement('style');
+  st.textContent=`
+    .btn-add-manu{position:absolute;right:25px;bottom:25px;background:#2a7b71;color:#fff;border:none;border-radius:50%;width:55px;height:55px;font-size:28px;font-weight:bold;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.3);}
+    .bottom-nav{position:relative;}
+    .manu-edit{color:#1a56a0;text-decoration:underline;cursor:pointer;}
+    .manu-delete{color:red;text-decoration:underline;cursor:pointer;}
   `;
   document.head.appendChild(st);
 
