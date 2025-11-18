@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multas Finalizadas - Meu App</title>
-       <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multas Finalizadas - Meu App</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="js/multas.js" defer></script>
-    
 </head>
 <body class="container">
 
@@ -23,18 +22,21 @@
             <h1>Multas</h1>
         </section>
 
-        <section class="maintenance-tabs">
+        <div class="maintenance-tabs">
             <a href="multas-adicionar.html" class="tab">Adicionar</a>
             <a href="multas-pendentes.html" class="tab">Pendentes</a> 
-            <a href="multas-finalizadas.html" class="tab active">Finalizados</a>        </section>
+            <a href="multas-finalizadas.html" class="tab active">Finalizados</a>
+         </div>
     </header>
 
     <main>
         <ul class="list-cards">
-            <p class="empty-list-message">
-                Nenhuma multa finalizada para exibir no momento.
-            </p>
-        </ul>
+            <li>
+               <p class="empty-list-message">
+                   Nenhuma multa finalizada para exibir no momento.
+               </p>
+            </li>
+        </ul>
     </main>
 
     <footer class="bottom-nav">
